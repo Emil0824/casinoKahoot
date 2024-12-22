@@ -1,0 +1,109 @@
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    transition: all 0.3s;
+}
+
+body {
+    background-color: brown;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.hit, .stand {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8rem;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hit {
+    background-color: chocolate;
+}
+
+.stand {
+    background-color: chartreuse;
+}
+
+.home {
+    flex-direction: row;
+}
+
+.menu_host, .menu_join {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8rem;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: black;
+}
+
+.menu_host {
+    background-color: chocolate;
+}
+
+.menu_join {
+    background-color: chartreuse;
+}
+
+.host-board {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.codes, .players {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8rem;
+    border-radius: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.codes {
+    flex-direction: row;
+    gap: 10px;
+}
+
+.players {
+    background-color: rgb(165, 42, 89);
+    flex: 4;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.qr-code, .nr-code {
+    background-color: rgb(165, 42, 89);
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8rem;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: black;
+}
+
+.player {
+    margin: auto;
+}
