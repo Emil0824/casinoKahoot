@@ -224,8 +224,6 @@ module.exports = function(io) {
         await sleep(1000);
         dealCard(roomCode, 'dealer')
         await sleep(1000);
-        dealCard(roomCode, 'dealer')
-        await sleep(1000);
 
         playerTurn(roomCode);
     }
