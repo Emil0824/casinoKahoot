@@ -1,4 +1,3 @@
-const cookieParser = require("cookie-parser");
 const express = require("express");
 const http = require('http');
 const { Server } = require('socket.io');
@@ -12,7 +11,6 @@ app.use(function(req, res, next)
     next();
 });
 
-app.use(cookieParser());
 app.use(express.static("static"));
 app.use(express.urlencoded({extended:false}));
 

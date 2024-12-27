@@ -111,9 +111,9 @@ module.exports = function(io) {
 
         socket.on('setBet', (userId, bet) => {
             let roomCode = getRoomCodeFromUserId(userId);   //send view to host
-
             console.log(userId + ' bet: ' + bet);
             rooms[roomCode].players.find(player => player.id === userId).bet = bet;
+            io.to(rooms[roomCode].host).emit('newBets', rooms[roomCode].players);
         });
 
         socket.on('playerAction', async ( userId, action ) => {
@@ -171,11 +171,18 @@ module.exports = function(io) {
         return new Promise((resolve) => {
             io.to(roomCode).emit('placeYourBetsNow');
             const interval = setInterval(() => {
-                console.log('Waiting for bets: ' + roomCode);
-                const allBetsPlaced = rooms[roomCode].players.every(player => player.bet > 0);
-                if (allBetsPlaced) {
+                try {
+                    console.log('Waiting for bets: ' + roomCode);
+                    const allBetsPlaced = rooms[roomCode].players.every(player => player.bet > 0);
+                    if (allBetsPlaced) {
+                        clearInterval(interval);
+                        console.log('All bets placed: ' + roomCode);
+                        resolve();
+                    }
+                } catch (error) {
+                    console.log('Error in waitForBets: ' + error);
+                    console.log('player must have left');
                     clearInterval(interval);
-                    console.log('All bets placed: ' + roomCode);
                     resolve();
                 }
             }, 1000);
@@ -194,8 +201,7 @@ module.exports = function(io) {
     function initBlackJack(roomCode) {
         console.log('Starting BlackJack: ' + roomCode);
         rooms[roomCode].gameInfo.round = 0;
-
-        //tell host game init
+        io.to(rooms[roomCode].host).emit('initBlackJack');
 
         newRound(roomCode);
     }
@@ -205,10 +211,16 @@ module.exports = function(io) {
         rooms[roomCode].gameInfo.hands['dealer'] = [];
         rooms[roomCode].gameInfo.round++;
         resetBets(roomCode);
-        //send view to host
+        console.log(rooms[roomCode].gameInfo)
+        io.to(rooms[roomCode].host).emit('newBlackJackRound', rooms[roomCode].gameInfo);
+        
         await waitForBets(roomCode);
         console.log('Bets placed: ' + roomCode);
 
+        if (rooms[roomCode] == undefined) {
+            console.log('Room deleted');
+            return;
+        }
         console.log(rooms[roomCode].players);
 
         for (const player of rooms[roomCode].players) {
@@ -234,6 +246,7 @@ module.exports = function(io) {
         console.log(`Dealt card to ${userId}: ${newCardId}`);
         
         //send view to host
+        io.to(rooms[roomCode].host).emit('newCard', userId, newCardId);
     }
 
     function calculateHand(roomCode, userId) {
