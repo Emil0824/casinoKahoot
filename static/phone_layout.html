@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="output.css">
+    <title>Document</title>
+</head>
+
+<body class="">
+    <header class="absolute w-full z-10 flex bg-black">
+        <div class="mx-auto">
+            <p class="text-white py-4">Placera ditt bet!</p>
+        </div>
+    </header>
+    <main class="absolute w-full flex flex-col h-full bg-gradient-to-b from-green-950 to-green-700">
+        <!-- Betting -->
+        <div class="flex flex-col items-center mt-28">
+            <button
+                class="relative rotate-180 w-0 h-0 border-l-[50px] border-l-transparent border-t-[75px] border-t-black border-r-[50px] border-r-transparent">
+                <span class="absolute -top-[4.4rem] -left-[0.9rem] text-5xl text-green-500">+</span>
+            </button>
+            <div class="relative flex justify-center items-center my-10">
+                <img class="w-40 bg-white rounded-full p-1 border-black" src="assets/chip_black.png" alt="">
+                <p class="absolute block text-white pl-1 pb-1 text-6xl">14</p>
+            </div>
+            <button
+                class="relative w-0 h-0 border-l-[50px] border-l-transparent border-t-[75px] border-t-black border-r-[50px] border-r-transparent">
+                <span class="absolute -top-[5.5rem] -left-[1rem] text-7xl text-red-500">-</span>
+            </button>
+        </div>
+        <div class="mx-auto pt-16">
+            <button
+                class="inline-block bg-black text-3xl text-white border-2 border-white py-2 px-14 rounded-xl">Betta</button>
+        </div>
+    </main>
+</body>
+
+</html>
