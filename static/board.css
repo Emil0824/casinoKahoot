@@ -1,0 +1,9 @@
+.min-card-height {
+    min-height: 10.5rem;
+}
+
+.player-panel {
+    padding: 10px 10px 0px 10px;
+    border: 4px solid #ccc;
+    border-radius: 30px;
+}

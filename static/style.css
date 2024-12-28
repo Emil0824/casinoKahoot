@@ -5,7 +5,7 @@
     transition: all 0.3s;
 }
 
-body {
+.body-lobby {
     background-color: brown;
     height: 100vh;
     display: flex;
