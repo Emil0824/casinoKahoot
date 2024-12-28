@@ -1,3 +1,4 @@
+var QRCode = require('qrcode');
 
 const rooms = [];
 const users = {};
@@ -12,8 +13,14 @@ module.exports = function(io) {
             roomCode = Math.floor(Math.random() * 10000);
             rooms[roomCode] = { host: socket.id, players: [], gameInfo: { game:"lobby" } };
             socket.join(roomCode)
-            io.to(socket.id).emit('createdRoom', roomCode)
+            io.to(socket.id).emit('createdRoom', roomCode);
             console.log('Room created: ' + roomCode);
+
+            //make qr code
+            QRCode.toFile(`static/assets/qr-codes/${roomCode}.png`, `http://localhost:3000/join?roomCode=${roomCode}`, {
+                
+            });
+            io.to(socket.id).emit('qrCode-ready', roomCode);
         });
 
         socket.on('joinRoom', (roomCode, username) => {
@@ -320,7 +327,7 @@ module.exports = function(io) {
         if (dealerHand > 21) {
             io.to(rooms[roomCode].host).emit('bust', 'dealer');
         }
-        
+
         await sleep(3000);
         endRound(roomCode);
     }
