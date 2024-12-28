@@ -11,7 +11,7 @@ if (roomCodeFromUrl) {
     document.querySelector('.room-code').value = roomCodeFromUrl;
 }
 
-const socket = io({
+const socket = io("https://sip-royale.dannesteknikhorna.se", {
     reconnection: true,
     reconnectionAttempts: 5,
     reconnectionDelay: 1000,
