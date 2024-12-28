@@ -7,4 +7,4 @@ services:
       dockerfile: Dockerfile
     container_name: sip-royale
     ports:
-      - "3000:3000"
+      - "25013:3000" # externalPort:internalPort
