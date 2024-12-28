@@ -16,6 +16,11 @@ socket.on('createdRoom', (roomCode) => {
 
 });
 
+socket.on('qrCode-ready', (roomCode) => {
+    console.log("qrCode ready");
+    document.querySelector(".qr-code").innerHTML = `<img src="assets/qr-codes/${roomCode}.png" alt="qr-code">`;
+});
+
 socket.on('playerJoined', (username, userId) => {
     console.log(players);
     console.log(username + " joined the room");

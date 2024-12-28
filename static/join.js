@@ -4,6 +4,13 @@ if (!userId) {
     localStorage.setItem('userId', userId);
 }
 
+
+const urlParams = new URLSearchParams(window.location.search);
+const roomCodeFromUrl = urlParams.get('roomCode');
+if (roomCodeFromUrl) {
+    document.querySelector('.room-code').value = roomCodeFromUrl;
+}
+
 const socket = io({
     reconnection: true,
     reconnectionAttempts: 5,
