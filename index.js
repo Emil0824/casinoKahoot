@@ -8,7 +8,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*", // Allow all origins for WebSocket connections
+        origin: "https://sip-royale.dannesteknikhorna.se",
+        // origin: "*", // Allow all origins for WebSocket connections
         methods: ["GET", "POST"], // Allowed HTTP methods
     }
 });
