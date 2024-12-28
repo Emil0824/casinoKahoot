@@ -111,9 +111,9 @@ module.exports = function(io) {
 
         socket.on('setBet', (userId, bet) => {
             let roomCode = getRoomCodeFromUserId(userId);   //send view to host
-
             console.log(userId + ' bet: ' + bet);
             rooms[roomCode].players.find(player => player.id === userId).bet = bet;
+            io.to(rooms[roomCode].host).emit('newBets', rooms[roomCode].players, userId);
         });
 
         socket.on('playerAction', async ( userId, action ) => {
@@ -131,9 +131,11 @@ module.exports = function(io) {
                     io.to(getSocketFromUserId(userId)).emit('yourBlackjackTurn');
                 } else {
                     rooms[roomCode].players.find(player => player.id === userId).gameStatus = 'done';
+                    io.to(rooms[roomCode].host).emit('bust', userId);
                 }
             } else if (action === 'stand') {
                 rooms[roomCode].players.find(player => player.id === userId).gameStatus = 'done';
+                io.to(rooms[roomCode].host).emit('stand', userId);
             }
         });
     })
@@ -171,11 +173,18 @@ module.exports = function(io) {
         return new Promise((resolve) => {
             io.to(roomCode).emit('placeYourBetsNow');
             const interval = setInterval(() => {
-                console.log('Waiting for bets: ' + roomCode);
-                const allBetsPlaced = rooms[roomCode].players.every(player => player.bet > 0);
-                if (allBetsPlaced) {
+                try {
+                    console.log('Waiting for bets: ' + roomCode);
+                    const allBetsPlaced = rooms[roomCode].players.every(player => player.bet > 0);
+                    if (allBetsPlaced) {
+                        clearInterval(interval);
+                        console.log('All bets placed: ' + roomCode);
+                        resolve();
+                    }
+                } catch (error) {
+                    console.log('Error in waitForBets: ' + error);
+                    console.log('player must have left');
                     clearInterval(interval);
-                    console.log('All bets placed: ' + roomCode);
                     resolve();
                 }
             }, 1000);
@@ -194,8 +203,7 @@ module.exports = function(io) {
     function initBlackJack(roomCode) {
         console.log('Starting BlackJack: ' + roomCode);
         rooms[roomCode].gameInfo.round = 0;
-
-        //tell host game init
+        io.to(rooms[roomCode].host).emit('initBlackJack');
 
         newRound(roomCode);
     }
@@ -205,10 +213,16 @@ module.exports = function(io) {
         rooms[roomCode].gameInfo.hands['dealer'] = [];
         rooms[roomCode].gameInfo.round++;
         resetBets(roomCode);
-        //send view to host
+        console.log(rooms[roomCode].gameInfo)
+        io.to(rooms[roomCode].host).emit('newBlackJackRound', rooms[roomCode].gameInfo, rooms[roomCode].players);
+        
         await waitForBets(roomCode);
         console.log('Bets placed: ' + roomCode);
 
+        if (rooms[roomCode] == undefined) {
+            console.log('Room deleted');
+            return;
+        }
         console.log(rooms[roomCode].players);
 
         for (const player of rooms[roomCode].players) {
@@ -230,10 +244,29 @@ module.exports = function(io) {
 
     function dealCard(roomCode, userId) {
         let newCardId = Math.floor(Math.random() * 13) + 1;   //make decks
-        rooms[roomCode].gameInfo.hands[userId].push( {id: newCardId, value: newCardId > 10 ? 10 : newCardId} );
-        console.log(`Dealt card to ${userId}: ${newCardId}`);
+        let suitID = Math.floor(Math.random() * 4) + 1;
+        switch (suitID) {
+            case 1:
+                suitID = 'H'
+                break;
+            case 2:
+                suitID = 'D'
+                break;
+            case 3:
+                suitID = 'S'
+                break;
+            case 4:
+                suitID = 'C'
+                break;
+            default:
+                break;
+        }
+
+        rooms[roomCode].gameInfo.hands[userId].push( {id: newCardId,value: newCardId > 10 ? 10 : newCardId} );
+        console.log(`Dealt card to ${userId}: ${newCardId + suitID}`);
         
         //send view to host
+        io.to(rooms[roomCode].host).emit('newCard', userId, newCardId + suitID);
     }
 
     function calculateHand(roomCode, userId) {
@@ -262,10 +295,14 @@ module.exports = function(io) {
         io.to(roomCode).emit('yourBlackjackTurn');
 
         const interval = setInterval(() => {
-            let allPlayersDone = rooms[roomCode].players.every(player => player.gameStatus === 'done');
-            if (allPlayersDone) {
-                clearInterval(interval);
-                dealerTurn(roomCode);
+            try {
+                let allPlayersDone = rooms[roomCode].players.every(player => player.gameStatus === 'done');
+                if (allPlayersDone) {
+                    clearInterval(interval);
+                    dealerTurn(roomCode);
+                }
+            } catch (error) {
+                return;
             }
         }, 1000);
     }
@@ -280,12 +317,48 @@ module.exports = function(io) {
             dealerHand = calculateHand(roomCode, 'dealer');
         }
 
-        //send view to host
-        endRound();
+        if (dealerHand > 21) {
+            io.to(rooms[roomCode].host).emit('bust', 'dealer');
+        }
+        
+        await sleep(3000);
+        endRound(roomCode);
     }
 
-    function endRound() {
+    function endRound(roomCode) {
         console.log('Round ended');
-        
+        console.log('Calculating winners');
+
+        let dealerHand = calculateHand(roomCode, 'dealer');
+
+        rooms[roomCode].players.forEach(player => {
+            let playerHand = calculateHand(roomCode, player.id);
+            let playerBet = parseInt(player.bet, 10);
+
+            if (playerHand > 21 || playerHand < dealerHand) {
+                player.points -= playerBet;
+                io.to(rooms[roomCode].host).emit('playerScore', player.id, 'lose');
+            } else if (playerHand > dealerHand) {
+                player.points += playerBet;
+                
+                io.to(rooms[roomCode].host).emit('playerScore', player.id, 'win');
+            } else {
+                io.to(rooms[roomCode].host).emit('playerScore', player.id, 'draw');
+            }
+        });
+
+        io.to(rooms[roomCode].host).emit('roundEnd', rooms[roomCode].players);
+
+        if (rooms[roomCode] == undefined) {
+            console.log('Room deleted');
+            return;
+        }
+
+        if (rooms[roomCode].gameInfo.round < 5) {
+            newRound(roomCode);
+        } else {
+            io.to(rooms[roomCode].host).emit('gameEnd');
+            rooms[roomCode].gameInfo.game = 'lobby';
+        }
     }
 }

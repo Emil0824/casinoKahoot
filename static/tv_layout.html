@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="board.css">
+    <title>TV layout</title>
+</head>
+
+<body class="">
+    <!-- <div class="relative w-screen h-screen bg-green-700"> -->
+    <div class="absolute inset-0 rounded-[0px] bg-black"></div>
+    <div class="absolute inset-4 rounded-[36px] bg-gradient-to-b from-green-950 to-green-700 overflow-hidden">
+        <!-- Status -->
+        <div class="flex">
+            <div class="flex mx-auto bg-wood-pattern bg-cover w-96 rounded-bl-full rounded-br-full shadow-xl">
+                <p class="inline-block mx-auto pt-1 pb-2 text-xl text-white drop-shadow-md" id="runda">Runda 4</p>
+            </div>
+        </div>
+        <!-- Dealer -->
+        <div class="flex relative mt-2 w-[13.5rem] min-h-[10.5rem] mx-auto" id="dealer">
+            <div class="relative mx-auto z-0">
+                <img class="w-[7.5rem]" src="assets/4D.svg" alt="">
+            </div>
+            <div class="relative mx-auto -ml-[6rem] z-10">
+                <img class="w-[7.5rem] drop-shadow-sm" src="assets/4D.svg" alt="">
+            </div>
+            <div class="relative mx-auto -ml-[6rem] z-10">
+                <img class="w-[7.5rem] drop-shadow-sm" src="assets/4D.svg" alt="">
+            </div>
+            <div class="relative mx-auto -ml-[6rem] z-10">
+                <img class="w-[7.5rem] drop-shadow-sm" src="assets/4D.svg" alt="">
+            </div>
+            <div class="relative mx-auto -ml-[6rem] z-10">
+                <img class="w-[7.5rem] drop-shadow-sm" src="assets/4D.svg" alt="">
+            </div>
+        </div>
+        <main class="flex flex-wrap justify-center py-4 px-8 gap-x-10 ">
+            <!-- Player panel -->
+            <div class="flex flex-col items-center  relative player-panel">
+                <div class="flex items-center justify-between text-white px-2 py-4 w-full bg-wood-pattern rounded-md">
+                    <div class="flex items-center">
+                        <img class="w-10" src="assets/chips_white.png" alt="">
+                        <p class="text-2xl">-20</p>
+                    </div>
+                    <div class="relative flex justify-center items-center">
+                        <img class="pl-2 w-16" src="assets/chip_black.png" alt="">
+                        <p class="absolute block pl-1 pb-1 text-xl">14</p>
+                    </div>
+                </div>
+                <!-- Cards -->
+                <div class="flex relative mt-2 w-[13.5rem] min-h-[10.5rem]" id="user">
+                    <div class="relative mx-auto z-0">
+                        <img class="w-[7.5rem]" src="assets/4D.svg" alt="">
+                    </div>
+                    <div class="relative mx-auto -ml-[6rem] z-10">
+                        <img class="w-[7.5rem] drop-shadow-sm" src="assets/4D.svg" alt="">
+                    </div>
+                    <div class="relative mx-auto -ml-[6rem] z-10">
+                        <img class="w-[7.5rem] drop-shadow-sm" src="assets/4D.svg" alt="">
+                    </div>
+                    <div class="relative mx-auto -ml-[6rem] z-10">
+                        <img class="w-[7.5rem] drop-shadow-sm" src="assets/4D.svg" alt="">
+                    </div>
+                    <div class="relative mx-auto -ml-[6rem] z-10">
+                        <img class="w-[7.5rem] drop-shadow-sm" src="assets/4D.svg" alt="">
+                    </div>
+                </div>
+                <div class="text-lg text-white m-2 px-2 py-1 bg-neutral-800 border-2 border-black rounded-full">
+                    <div>Benjamin</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    </div>
+
+</body>
+
+</html>
