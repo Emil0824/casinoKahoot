@@ -16,8 +16,8 @@ const io = new Server(server, {
 
 // Apply CORS middleware
 app.use(cors({
-    origin: (origin, callback) => callback(null, true), // Dynamically allow all origins
-    credentials: true, // Allow cookies
+    origin: "https://sip-royale.dannesteknikhorna.se",  // Allow your domain
+    credentials: true,  // Allow cookies
 }));
 
 app.use(cookieParser());
