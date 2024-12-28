@@ -11,6 +11,7 @@ const io = new Server(server, {
         origin: "https://sip-royale.dannesteknikhorna.se",
         // origin: "*", // Allow all origins for WebSocket connections
         methods: ["GET", "POST"], // Allowed HTTP methods
+        credentials: true,  // Allow cookies to be passed
     }
 });
 
