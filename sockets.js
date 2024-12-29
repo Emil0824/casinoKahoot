@@ -342,15 +342,15 @@ module.exports = function(io) {
             let playerHand = calculateHand(roomCode, player.id);
             let playerBet = parseInt(player.bet, 10);
 
-            if (playerHand > 21 || playerHand < dealerHand) {
+            if (playerHand > 21) {
                 player.points -= playerBet;
                 io.to(rooms[roomCode].host).emit('playerScore', player.id, 'lose');
-            } else if (playerHand > dealerHand) {
+            } else if (playerHand > dealerHand || dealerHand > 21) {
                 player.points += playerBet;
-                
                 io.to(rooms[roomCode].host).emit('playerScore', player.id, 'win');
-            } else {
-                io.to(rooms[roomCode].host).emit('playerScore', player.id, 'draw');
+            } else if (playerHand < dealerHand){
+                player.points -= playerBet;
+                io.to(rooms[roomCode].host).emit('playerScore', player.id, 'lose');
             }
         });
 
