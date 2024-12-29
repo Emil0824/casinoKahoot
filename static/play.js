@@ -4,7 +4,7 @@ if (!userId) {
     localStorage.setItem('userId', userId);
 }
 
-const socket = io('http://localhost:3000', {
+const socket = io({
     reconnection: true,
     reconnectionAttempts: 5,
     reconnectionDelay: 1000,
@@ -12,7 +12,7 @@ const socket = io('http://localhost:3000', {
 
 socket.on('connect', () => {
     console.log('Connected to server:', socket.id);
-  
+
     // Send the userId to the server after connecting
     socket.emit('register', userId);
 });
@@ -171,14 +171,14 @@ function myTurnBlackJack() {
 
     const hitButton = document.getElementById('hit-button');
     hitButton.addEventListener('click', () => {
-        socket.emit('playerAction', userId, 'hit' );
+        socket.emit('playerAction', userId, 'hit');
 
         body.innerHTML = waitingHTML;
     });
 
     const standButton = document.getElementById('stand-button');
     standButton.addEventListener('click', () => {
-        socket.emit('playerAction', userId, 'stand' );
+        socket.emit('playerAction', userId, 'stand');
 
         body.innerHTML = waitingHTML;
     });
