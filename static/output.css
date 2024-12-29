@@ -608,6 +608,11 @@ video {
   margin-bottom: 2.5rem;
 }
 
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .-ml-\[6rem\] {
   margin-left: -6rem;
 }
@@ -618,6 +623,10 @@ video {
 
 .mt-28 {
   margin-top: 7rem;
+}
+
+.mt-48 {
+  margin-top: 12rem;
 }
 
 .block {
@@ -644,6 +653,10 @@ video {
   height: 100vh;
 }
 
+.min-h-\[10\.5rem\] {
+  min-height: 10.5rem;
+}
+
 .w-0 {
   width: 0px;
 }
@@ -658,6 +671,10 @@ video {
 
 .w-40 {
   width: 10rem;
+}
+
+.w-80 {
+  width: 20rem;
 }
 
 .w-96 {
@@ -683,6 +700,16 @@ video {
 .rotate-180 {
   --tw-rotate: 180deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .flex-col {
