@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlackJack</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="output.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="join.js" defer></script>
 </head>
-<body>
-    <input type="text" name="code" class="room-code">
-    <input type="text" name="name" class="username">
-    <button class="join" onclick="joinGame()">Join</button>
+
+<body class="">
+    <div class="bg-black h-screen">
+        <div class="flex flex-col items-center text-white">
+            <label for="code" class="text-xl mt-10">Kod</label>
+            <input type="text" name="code" class="room-code text-xl bg-gray-600 p-2 rounded-xl"
+                placeholder="ange kod...">
+
+            <label for="name" class="text-xl mt-10">Namn</label>
+            <input type="text" name="name" class="username text-xl bg-gray-600 p-2 rounded-xl"
+                placeholder="skriv ditt namn">
+            <button class="join text-xl bg-blue-600 mt-20 px-10 py-2 rounded xl" onclick="joinGame()">Joina</button>
+        </div>
+    </div>
 </body>
+
 </html>
