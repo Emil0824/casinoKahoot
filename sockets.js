@@ -17,7 +17,7 @@ module.exports = function(io) {
             console.log('Room created: ' + roomCode);
 
             //make qr code
-            QRCode.toFile(`static/assets/qr-codes/${roomCode}.png`, `http://localhost:3000/join?roomCode=${roomCode}`, {
+            QRCode.toFile(`static/assets/qr-codes/${roomCode}.png`, `${process.env.PUBLIC_URL}/join?roomCode=${roomCode}`, {
                 
             });
             io.to(socket.id).emit('qrCode-ready', roomCode);
