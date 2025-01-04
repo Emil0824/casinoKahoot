@@ -36,8 +36,10 @@ socket.on('joinedRoom', () => {
     console.log('Joined room');
 
     document.querySelector('body').innerHTML = `
+    <div class="bg-black text-white">
         <h1>Waiting for other players...</h1>
-        <button onclick="startGame()">Start Game</button>
+        <button onclick="startGame()" class="join text-xl bg-blue-600 mt-20 px-10 py-2 rounded xl">Start Game</button>
+    </div>
     `;
 });
 

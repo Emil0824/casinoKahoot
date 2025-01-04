@@ -1,7 +1,7 @@
 const socket = io({
-    reconnection: true, 
-    reconnectionAttempts: 5, 
-    reconnectionDelay: 1000, 
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 1000,
 });
 
 socket.emit('createRoom');
@@ -32,7 +32,7 @@ socket.on('playerJoined', (username, userId) => {
 socket.on('playerLeft', (userId) => {
     console.log(players);
     console.log(userId)
-    
+
     try {
         console.log(players[userId].username + " left the room");
 
@@ -92,7 +92,7 @@ socket.on('initBlackJack', () => {
     if (link) {
         link.parentNode.removeChild(link);
     }
-    
+
     //create board
     document.querySelector('body').innerHTML = `
     <!-- <div class="relative w-screen h-screen bg-green-700"> -->

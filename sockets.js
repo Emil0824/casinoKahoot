@@ -361,7 +361,7 @@ module.exports = function(io) {
             return;
         }
 
-        if (rooms[roomCode].gameInfo.round < 5) {
+        if (rooms[roomCode].gameInfo.round < 7) {
             newRound(roomCode);
         } else {
             io.to(rooms[roomCode].host).emit('gameEnd');
