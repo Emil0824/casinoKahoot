@@ -6,5 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: sip-royale
+    environment:
+      PUBLIC_URL: ${PUBLIC_URL}
     ports:
       - "25013:3000" # externalPort:internalPort
