@@ -1,3 +1,11 @@
+# Before running
+
+`npm install`
+
+create a file called `stack.env` with the following value:
+`PUBLIC_URL="https://YOUR_URL_HERE"`
+
+
 # Docker
 
 `docker compose up --build`

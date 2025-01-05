@@ -3,15 +3,14 @@ const express = require("express");
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors'); // Import the CORS package
-require('dotenv').config();
-
+const dotenv = require('dotenv');
+dotenv.config({ path: 'stack.env' });
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "https://sip-royale.dannesteknikhorna.se",
-        // origin: "*", // Allow all origins for WebSocket connections
+        origin: process.env.PUBLIC_URL,
         methods: ["GET", "POST"], // Allowed HTTP methods
         credentials: true,  // Allow cookies to be passed
     }
@@ -19,7 +18,7 @@ const io = new Server(server, {
 
 // Apply CORS middleware
 app.use(cors({
-    origin: "https://sip-royale.dannesteknikhorna.se",  // Allow your domain
+    origin: process.env.PUBLIC_URL,  // Allow your domain
     credentials: true,  // Allow cookies
 }));
 
